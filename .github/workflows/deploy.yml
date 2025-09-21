@@ -1,0 +1,30 @@
+name: Deploy Website
+
+on:
+  push:
+    branches:
+      - main   # chỉ chạy khi push vào nhánh main
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # B1: Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # B2: Kiểm tra HTML/CSS (dùng tool action-lint để demo)
+      - name: Run HTML Linter
+        uses: Cyb3r-Jak3/html5validator-action@v7
+        with:
+          root: .
+
+      # B3: Deploy lên GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+
+
